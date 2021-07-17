@@ -1,7 +1,7 @@
 <!--
  * @Author: SummerJay__
  * @Date: 2021-07-17 09:05:15
- * @LastEditTime: 2021-07-17 16:28:56
+ * @LastEditTime: 2021-07-17 18:24:11
  * @LastEditors: your name
  * @Description: 
  * @FilePath: \gulishop-client\src\components\Header\index.vue
@@ -91,7 +91,7 @@ export default {
        */
       this.$router.push({
         name: "search",
-        params: { keyWord: this.keyWord },
+        params: { keyWord: this.keyWord || undefined },
       });
     },
   },
