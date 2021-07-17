@@ -1,7 +1,7 @@
 <!--
  * @Author: SummerJay__
  * @Date: 2021-07-17 09:05:15
- * @LastEditTime: 2021-07-17 11:25:52
+ * @LastEditTime: 2021-07-17 16:28:56
  * @LastEditors: your name
  * @Description: 
  * @FilePath: \gulishop-client\src\components\Header\index.vue
@@ -50,6 +50,7 @@
             type="text"
             id="autocomplete"
             class="input-error input-xxlarge"
+            v-model="keyWord"
           />
           <button
             class="sui-btn btn-xlarge btn-danger"
@@ -67,9 +68,31 @@
 <script>
 export default {
   name: "Header",
+  data() {
+    return {
+      keyWord: "",
+    };
+  },
   methods: {
     toSearch() {
-      this.$router.push("/search");
+      // this.$router.push("/search/" + this.keyWord);
+      /**
+       * 一.路由传参种类:params参数和query参数
+       *    params参数是属于路径的一部分，路由当中匹配的时候，是要照顾到这个参数的
+       *    query参数是在路径后面，以 ? 分割, ？ 后面的 a = b & c = d 就是你的query参数
+       *    query是不属于路径的一部分，路由匹配的时候，不需要关心这个参数
+       * 二. 路由路径参数的三种写法
+       *    1.字符串写法
+       *      this.$router.push("/search/" + this.keyWord);
+       *    2.模板字符串
+       *       this.$router.push(`/search/${this.keyWord}`);
+       *    3.对象写法(重点)
+       *        this.$router.push({name:'search',params:{keyWord:this.keyWord},query:{keyWord1:this.keyWord.toUpperCase()}})
+       */
+      this.$router.push({
+        name: "search",
+        params: { keyWord: this.keyWord },
+      });
     },
   },
 };

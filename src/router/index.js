@@ -1,7 +1,7 @@
 /*
  * @Author: SummerJay__
  * @Date: 2021-07-17 09:38:11
- * @LastEditTime: 2021-07-17 15:12:15
+ * @LastEditTime: 2021-07-17 16:32:57
  * @LastEditors: your name
  * @Description:
  * @FilePath: \gulishop-client\src\router\index.js
@@ -30,8 +30,10 @@ const router = new VueRouter({
       },
     },
     {
-      path: "/search",
+      path: "/search/:keyWord",
       component: Search,
+      name: "search",
+      props: true,
     },
     {
       path: "/register",
