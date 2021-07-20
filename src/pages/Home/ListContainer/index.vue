@@ -1,7 +1,7 @@
 <!--
  * @Author: SummerJay__
  * @Date: 2021-07-17 20:14:35
- * @LastEditTime: 2021-07-19 23:30:44
+ * @LastEditTime: 2021-07-20 15:50:14
  * @LastEditors: your name
  * @Description: 
  * @FilePath: \gulishop-client\src\pages\Home\ListContainer\index.vue
@@ -12,12 +12,16 @@
     <div class="sortList clearfix">
       <div class="center">
         <!--banner轮播-->
-        <div class="swiper-container" id="mySwiper">
+        <!-- <div class="swiper-container" id="mySwiper" ref="bannerSwiper">
           <div class="swiper-wrapper">
-            <div class="swiper-slide">
-              <img src="./images/home/banner1.jpg" />
+            <div
+              class="swiper-slide"
+              v-for="(item, index) in bannerList"
+              :key="item.id"
+            >
+              <img :src="'.' + item.imgUrl" />
             </div>
-            <!-- <div class="swiper-slide">
+             <div class="swiper-slide">
               <img src="./images/home/banner2.jpg" />
             </div>
             <div class="swiper-slide">
@@ -25,15 +29,14 @@
             </div>
             <div class="swiper-slide">
               <img src="./images/home/banner4.jpg" />
-            </div> -->
-          </div>
-          <!-- 如果需要分页器 -->
+            </div> 
+          </div> 
           <div class="swiper-pagination"></div>
 
-          <!-- 如果需要导航按钮 -->
           <div class="swiper-button-prev"></div>
           <div class="swiper-button-next"></div>
-        </div>
+        </div> -->
+        <SlideLoop :bannerList="bannerList" />
       </div>
       <div class="right">
         <div class="news">
@@ -101,7 +104,7 @@
           </li>
         </ul>
         <div class="ads">
-          <img src="./images/home/ad1.png" />
+          <img src="./images/ad1.png" />
         </div>
       </div>
     </div>
@@ -110,16 +113,129 @@
 
 <script>
 import { mapState } from "vuex";
+// import Swiper from "swiper"; //引入swiper的js
 export default {
   name: "ListContainer",
   mounted() {
     this.$store.dispatch("getBannerList");
+    // console.log(this);
+
+    /**
+     * 在此处实例化swiper是不生效的，
+     * 因为再此处实例化的时候，页面显示还不一定成功，
+     * 按道理来说挂载完成，页面的dom结构就算形成完成，在此去实例化应该是可以的，
+     * 但是，我们要看清楚这个页面结构中的swiper-slide，是根据请求回来的数据，动态创建生成的
+     * 所以，我们必须的保证请求数据回来之后，再去实例化
+     *有了数据,swiper-slide的div才会动态创建
+     */
+    //挂载完成以后去实例化swiper
+    // new Swiper(".swiper-container", {
+    //   // direction: "vertical", // 垂直切换选项  去掉就代表轮播图是水平的
+    //   loop: true, // 循环模式选项
+
+    //   // 如果需要分页器
+    //   pagination: {
+    //     el: ".swiper-pagination",
+    //   },
+
+    //   // 如果需要前进后退按钮
+    //   navigation: {
+    //     nextEl: ".swiper-button-next",
+    //     prevEl: ".swiper-button-prev",
+    //   },
+
+    //   // 如果需要滚动条
+    //   // scrollbar: {
+    //   //   el: ".swiper-scrollbar",
+    //   // },
+    // });
+
+    //此方法可以解决以上swiper的问题，但是不完美
+    // setTimeout(() => {
+    //   new Swiper(this.$refs.bannerSwiper, {
+    //     // direction: "vertical", // 垂直切换选项  去掉就代表轮播图是水平的
+    //     loop: true, // 循环模式选项
+
+    //     // 如果需要分页器
+    //     pagination: {
+    //       el: ".swiper-pagination",
+    //     },
+
+    //     // 如果需要前进后退按钮
+    //     navigation: {
+    //       nextEl: ".swiper-button-next",
+    //       prevEl: ".swiper-button-prev",
+    //     },
+
+    //     // 如果需要滚动条
+    //     // scrollbar: {
+    //     //   el: ".swiper-scrollbar",
+    //     // },
+    //   });
+    // }, 2000);
   },
   computed: {
     ...mapState({
       bannerList: (state) => state.home.bannerList,
     }),
   },
+  // watch: {
+  //   bannerList: {
+  //     handler(newVal, oldVal) {
+  //       /**
+  //        * 当数据一旦变化，那么我们就去实例化swiper，但是发现不行
+  //        * 我们就得考虑是不是页面还是没形成呢? 答案是肯定的，也就是说有了数据，上面页面才开始v-for形成结构
+  //        * 得等结构完全形成之后再去实例化
+  //        */
+  //       // new Swiper(this.$refs.bannerSwiper, {
+  //       //   // direction: "vertical", // 垂直切换选项  去掉就代表轮播图是水平的
+  //       //   loop: true, // 循环模式选项
+
+  //       //   // 如果需要分页器
+  //       //   pagination: {
+  //       //     el: ".swiper-pagination",
+  //       //   },
+
+  //       //   // 如果需要前进后退按钮
+  //       //   navigation: {
+  //       //     nextEl: ".swiper-button-next",
+  //       //     prevEl: ".swiper-button-prev",
+  //       //   },
+
+  //       //   // 如果需要滚动条
+  //       //   // scrollbar: {
+  //       //   //   el: ".swiper-scrollbar",
+  //       //   // },
+  //       // });
+
+  //       // - 在最近的一次页面更新完成之后，执行nextTick当中传递的回调函数
+  //       // - nextTick是页面最近的一次更新完成之后才执行
+  //       // - updated 是只要页面有数据更新，那么就会执行，执行不关心是不是最近一次更新
+  //       this.$nextTick(() => {
+  //         new Swiper(this.$refs.bannerSwiper, {
+  //           // direction: "vertical", // 垂直切换选项  去掉就代表轮播图是水平的
+  //           loop: true, // 循环模式选项
+
+  //           // 如果需要分页器
+  //           pagination: {
+  //             el: ".swiper-pagination",
+  //           },
+
+  //           // 如果需要前进后退按钮
+  //           navigation: {
+  //             nextEl: ".swiper-button-next",
+  //             prevEl: ".swiper-button-prev",
+  //           },
+
+  //           // 如果需要滚动条
+  //           // scrollbar: {
+  //           //   el: ".swiper-scrollbar",
+  //           // },
+  //         });
+  //       });
+  //     },
+  //   },
+  // },
 };
 </script>
 
@@ -194,7 +310,7 @@ export default {
           width: 25%;
 
           .list-item {
-            background-image: url(./images/home/icons.png);
+            background-image: url(./images/icons.png);
             width: 61px;
             height: 40px;
             display: block;
