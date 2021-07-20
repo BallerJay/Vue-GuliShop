@@ -1,7 +1,7 @@
 <!--
  * @Author: SummerJay__
  * @Date: 2021-07-17 20:14:35
- * @LastEditTime: 2021-07-17 20:28:25
+ * @LastEditTime: 2021-07-19 23:30:44
  * @LastEditors: your name
  * @Description: 
  * @FilePath: \gulishop-client\src\pages\Home\ListContainer\index.vue
@@ -109,8 +109,17 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   name: "ListContainer",
+  mounted() {
+    this.$store.dispatch("getBannerList");
+  },
+  computed: {
+    ...mapState({
+      bannerList: (state) => state.home.bannerList,
+    }),
+  },
 };
 </script>
 

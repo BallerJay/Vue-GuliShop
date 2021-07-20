@@ -1,7 +1,7 @@
 <!--
  * @Author: SummerJay__
  * @Date: 2021-07-17 09:05:15
- * @LastEditTime: 2021-07-17 18:24:11
+ * @LastEditTime: 2021-07-19 16:25:25
  * @LastEditors: your name
  * @Description: 
  * @FilePath: \gulishop-client\src\components\Header\index.vue
@@ -89,10 +89,16 @@ export default {
        *    3.对象写法(重点)
        *        this.$router.push({name:'search',params:{keyWord:this.keyWord},query:{keyWord1:this.keyWord.toUpperCase()}})
        */
-      this.$router.push({
+      let location = {
         name: "search",
         params: { keyWord: this.keyWord || undefined },
-      });
+      };
+      if (this.$route.query) {
+        location.query = this.$route.query;
+      }
+      this.$router.push(location);
+
+      this.keyWord = "";
     },
   },
 };

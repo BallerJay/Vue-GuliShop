@@ -1,7 +1,7 @@
 /*
  * @Author: SummerJay__
  * @Date: 2021-07-18 10:38:10
- * @LastEditTime: 2021-07-18 10:59:01
+ * @LastEditTime: 2021-07-19 23:17:20
  * @LastEditors: your name
  * @Description:
  * @FilePath: \gulishop-client\src\api\index.js
@@ -20,6 +20,7 @@
  * */
 
 import request from "./ajax";
+import mockAjax from "@/api/mockAjax";
 
 export const reqCategoryList = () => {
   return request({
@@ -30,3 +31,17 @@ export const reqCategoryList = () => {
 
 //验证请求是否成功
 // reqCategoryList(); //这里如果想要调用此方法，需要把模块引入到main当中
+
+export const reqBannerList = () => {
+  return mockAjax({
+    url: "/banner",
+    method: "get",
+  });
+};
+
+export const reqFloorList = () => {
+  return mockAjax({
+    url: "/floor",
+    method: "get",
+  });
+};

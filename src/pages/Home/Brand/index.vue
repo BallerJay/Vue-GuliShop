@@ -1,7 +1,7 @@
 <!--
  * @Author: SummerJay__
  * @Date: 2021-07-17 20:44:09
- * @LastEditTime: 2021-07-17 20:46:13
+ * @LastEditTime: 2021-07-19 23:27:21
  * @LastEditors: your name
  * @Description: 
  * @FilePath: \gulishop-client\src\pages\Home\Brand\index.vue

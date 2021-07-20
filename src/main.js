@@ -1,7 +1,7 @@
 /*
  * @Author: SummerJay__
  * @Date: 2021-07-16 15:52:41
- * @LastEditTime: 2021-07-18 14:03:31
+ * @LastEditTime: 2021-07-19 23:20:54
  * @LastEditors: your name
  * @Description:
  * @FilePath: \gulishop-client\src\main.js
@@ -11,6 +11,7 @@ import App from "@/App";
 import router from "@/router";
 import TypeNav from "@/components/TypeNav";
 import store from "@/store";
+import "@/mock/mockServer"; //引入mockServer，让模拟的接口生效
 // import "@/api"; //验证接口请求函数时使用,第一种方法
 // import { reqCategoryList } from "@/api"; //验证接口请求函数时使用,第二种方法
 // reqCategoryList();

@@ -1,18 +1,20 @@
 /*
  * @Author: SummerJay__
  * @Date: 2021-07-18 14:25:30
- * @LastEditTime: 2021-07-18 15:15:27
+ * @LastEditTime: 2021-07-19 23:24:14
  * @LastEditors: your name
  * @Description:
  * @FilePath: \gulishop-client\src\store\home.js
  */
 
-import { reqCategoryList } from "@/api";
+import { reqCategoryList, reqBannerList, reqFloorList } from "@/api";
 
 //home的vuex模块
 const state = {
   //存数据
   categoryList: [],
+  bannerList: [],
+  floorList: [],
 };
 
 const actions = {
@@ -24,11 +26,26 @@ const actions = {
     const result = await reqCategoryList();
     if (result.code === 200) commit("RECEIVE_CATEGORYLIST", result.data);
   },
+  async getBannerList({ commit }) {
+    const result = await reqBannerList();
+    if (result.code === 200) commit("RECEIVE_BANNERLIST", result.data);
+  },
+
+  async getFloorList({ commit }) {
+    const result = await reqFloorList();
+    if (result.code === 200) commit("RECEIVE_FLOORLIST", result.data);
+  },
 };
 
 const mutations = {
   RECEIVE_CATEGORYLIST(state, value) {
     state.categoryList = value;
+  },
+  RECEIVE_BANNERLIST(state, value) {
+    state.bannerList = value;
+  },
+  RECEIVE_FLOORLIST(state, value) {
+    state.floorList = value;
   },
 };
 
