@@ -12,15 +12,16 @@
           </ul>
           <ul class="fl sui-tag">
             <li class="with-x" v-if="searchParams.categoryName">
-              {{ searchParams.categoryName
-              }}<i @click="removeCategoryName">×</i>
+              {{ searchParams.categoryName }}
+              <i @click="removeCategoryName">×</i>
             </li>
-            <li class="with-x" v-if="searchParams.keyword">
-              {{ searchParams.keyword }}<i @click="removeKeyword">×</i>
+            <li class="with-x" v-if="searchParams.keyWord">
+              {{ searchParams.keyWord }}
+              <i @click="removeKeyWord">×</i>
             </li>
             <li class="with-x" v-if="searchParams.trademark">
-              {{ searchParams.trademark.split(":")[1]
-              }}<i @click="removeTrademark">×</i>
+              {{ searchParams.trademark.split(":")[1] }}
+              <i @click="removeTrademark">×</i>
             </li>
 
             <li
@@ -93,12 +94,12 @@
               >
                 <div class="list-wrap">
                   <div class="p-img">
-                    <router-link :to="'/detail/'+goods.id">
+                    <!-- <router-link :to="'/detail/' + goods.id">
                       <img v-lazy="goods.defaultImg" />
-                    </router-link>
-                    <!-- <a href="item.html" target="_blank">
+                    </router-link> -->
+                    <a href="item.html" target="_blank">
                       <img :src="goods.defaultImg" />
-                    </a> -->
+                    </a>
                   </div>
                   <div class="price">
                     <strong>
@@ -107,15 +108,16 @@
                     </strong>
                   </div>
                   <div class="attr">
-                    <router-link :to="'/detail/'+goods.id">
+                    <!-- <router-link :to="'/detail/' + goods.id">
                       {{ goods.title }}
-                    </router-link>
-                    <!-- <a
+                    </router-link> -->
+                    <a
                       target="_blank"
                       href="item.html"
                       title="促销信息，下单即赠送三个月CIBN视频会员卡！【小米电视新品4A 58 火爆预约中】"
-                      > {{ goods.title }}</a
-                    > -->
+                    >
+                      {{ goods.title }}</a
+                    >
                   </div>
                   <div class="commit">
                     <i class="command">已有<span>2000</span>人评价</i>
@@ -140,7 +142,6 @@
             :total="searchInfo.total"
             :pageSize="searchParams.pageSize"
             :continueNo="5"
-            
             @changePageNo="changePageNo"
           ></Pagination>
           <!-- element-ui -->
@@ -148,7 +149,6 @@
             layout="prev, pager, next"
             :total="50">
           </el-pagination> -->
-
         </div>
       </div>
     </div>
@@ -156,251 +156,127 @@
 </template>
 
 <script>
-import { mapGetters, mapState } from "vuex";
+import { mapGetters } from "vuex";
+// import { mapGetters, mapState } from "vuex";
 import SearchSelector from "./SearchSelector/SearchSelector";
 export default {
   name: "Search",
   components: {
     SearchSelector,
   },
-
   data() {
     return {
       searchParams: {
-        //这个对象我们称作叫初始化所有的搜索参数,只不过一上来所有的搜索条件，我们都是空的
-        // 今后只要是作为搜索条件的，所有相关数据，全部先在这个对象内部初始化好
-        category1Id: "",
-        category2Id: "",
-        category3Id: "",
+        //这个对象我们称作初始化所有的搜索参数
+        //今后只要是作为搜索条件的，所有相关数据，全部先在这个对象内部初始化好
+        categoryId1: "",
+        categoryId2: "",
+        categoryId3: "",
         categoryName: "",
-        keyword: "",
+        keyWord: "",
         props: [],
         trademark: "",
-
-        // 默认的搜索条件
-        order: "2:desc", //排序规则，排序是后台排序的，我们搜索的时候得给后台一个默认的排序规则
-        pageNo: 1, //搜素第几页的商品，分页也是后台做好的，我们也是得告诉后台我们要第几页数据
-        pageSize: 3, //每页多少个商品，告诉后台，每页回来多少个商品 默认10个
+        //默认的搜索条件
+        order: "1:desc", //排序规则，排序是后台排序的，我们搜索的时候得给后台一个默认的排序规则
+        pageNo: 1, //搜索第几页的商品,分类也是后台做好的，我们也得告诉后台我们要第几个数据
+        pageSize: 10, //每页多少个商品，告诉后台，每页回来多少个商品，默认10个
       },
     };
   },
 
-  //按照三级分类和关键字进行搜索
   beforeMount() {
-    //在点击三级分类或者点击搜索按钮跳过来发请求之前，把对应的三级分类名称和id或者关键字keyword，拿到添加到
-    //data当中searchParams对应的搜索项当中
-    // 浅拷贝
-    // let {
-    //   category1Id,
-    //   category2Id,
-    //   category3Id,
-    //   categoryName,
-    // } = this.$route.query;
-    // let { keyword } = this.$route.params;
-
-    // let searchParams = {
-    //   ...this.searchParams,
-    //   category1Id,
-    //   category2Id,
-    //   category3Id,
-    //   categoryName,
-    //   keyword,
-    // }; //这样可以保证 searchParams；里面一定包含了我点击传递过来的搜索条件，没有就是undefined
-
-    // this.searchParams = searchParams;
-    this.handlerSearchParams();
+    //再点击三级分类或者点击搜索按钮跳过来发请求之前，把对应的三级分类名称和id或者关键字keyWord拿到
+    //添加到searchParams对应的搜索项当中
+    this.handleSearchParams();
   },
 
   mounted() {
-    //点击跳转过来，是在这里发请求的
     this.getSearchInfo();
   },
   methods: {
     getSearchInfo() {
-      //dispatch 如果传递多个参数，那么多个参数必须构成一个对象去传递
-      //也就是说 dispatch只能传递一个参数
-      // this.$store.dispatch('getSearchInfo',{}) //这里刚开始传空对象只是为了获取数据展示页面
-      //但是我们点击三级分类或者点击搜索按钮跳过来search页面的时候，就已经是有搜索条件了
-      // 点击三级分类跳转那么搜索条件就应该是三级分类的id和分类的名称
-      // 点击搜索按钮跳转那么搜索条件就应该是自己输入的关键字，
-      // 所以这个请求，参数不应该是空对象
+      /**
+       * dispatch 如果传递多个参数，那么多个参数必须构成一个对象去传递
+       * 也就是说  dispatch只能传递一个参数 */
+      /**
+       * 这里刚开始传空对象只是为了获取数据展示页面
+       * 但是我们点击三级分类或者点击搜索按钮跳过来search页面的时候，就已经是有搜索条件了
+       * 点击三级分类跳转那么搜索条件就应该是三级分类的id和分类的名称
+       * 点击搜索按钮跳转那么搜索条件就应该是自己输入的关键字
+       * 所以这个请求，参数不应该是空对象
+       * this.$store.dispatch("getSearchInfo", {});
+       */
       this.$store.dispatch("getSearchInfo", this.searchParams);
     },
 
-    handlerSearchParams() {
-      let {
-        category1Id,
-        category2Id,
-        category3Id,
-        categoryName,
-      } = this.$route.query;
-      let { keyword } = this.$route.params;
-
+    handleSearchParams() {
+      let { categoryId1, categoryId2, categoryId3, categoryName } =
+        this.$route.query;
+      let { keyWord } = this.$route.params;
       let searchParams = {
         ...this.searchParams,
-        category1Id,
-        category2Id,
-        category3Id,
+        categoryId1,
+        categoryId2,
+        categoryId3,
         categoryName,
-        keyword,
-      }; //这样可以保证 searchParams；里面一定包含了我点击传递过来的搜索条件，没有就是undefined
-
-      //赋值给this.searchParams之前，最好是把属性值为空串的属性干掉
-      // for循环   for..in   forEach  for...of
-      // for循环是js当中最简单的遍历方法  主要是针对数组进行遍历的，效率不高，但是可以使用continue和break
-      // for..in 循环主要是用来遍历对象的（遍历对象的可枚举属性的） 效率最低，原因是因为不但要遍历自身的属性还要遍历原型的
-      // forEach 是数组的一个方法，主要页是用来遍历数组的，效率最高，但是不可以使用continue和break
-      // for..of 是es6里面新加的一种遍历方法（前提必须是可迭代对象），效率没有forEach高（比其它的要高），也可以使用
-      //可以使用continue和break，for..of只能针对可迭代对象
-
-      //遍历对象最快的方法也是使用forEach 是把对象属性转化为数组然后进行遍历
-      //Object.keys(searchParams) 是把一个对象转化为数组，这个数组当中存储的是这个对象所有的属性
-      // let obj = {
-      //   name:'zhaoliying',
-      //   age:33,
-      //   height:168
-      // }
-      // Object.keys(obj)   // ['name','age','height']
-      // 只要以后大家看到这样的东西Object.keys(searchParams)，就是为了让对象可以使用forEach方法来高效去遍历
-      Object.keys(searchParams).forEach((key) => {
-        if (searchParams[key] === "") {
-          delete searchParams[key];
-        }
-      });
-
+        keyWord,
+      };
       this.searchParams = searchParams;
     },
-
-
-    // 删除分类名称搜索条件，重新发送请求
+    //删除分类名称搜索条件,重新发送请求
     removeCategoryName() {
-      this.searchParams.category3Id = undefined;
-      this.searchParams.category2Id = undefined;
-      this.searchParams.category1Id = undefined;
+      this.searchParams.categoryId1 = undefined;
+      this.searchParams.categoryId2 = undefined;
+      this.searchParams.categoryId3 = undefined;
       this.searchParams.categoryName = undefined;
       // this.getSearchInfo();
       //这里删除以后不会动我的原来路径，所以这样发请求不行，我们得让路径发生变化
-      // this.$router.push({name:'search',params:this.$route.params})//目的是让路径变化
-
-      this.searchParams.pageNo = 1
-
-      this.$router.replace({ name: "search", params: this.$route.params }); //目的是让路径变化
-
-      //然后路径变化了为什么就发送请求了，而且参数也对了呢
-      // 这里发请求依赖的是监视里面的代码
+      //所以发送请求的时候，要删除对应的参数
+      this.$route.push({
+        name: "search",
+        params: this.$route.params,
+      });
+      //注意====此处路径变化了为什么就发送请求了，是因为这里发请求依赖的是watch里面的代码
     },
-    // 删除关键字搜索条件，重新发送请求
-    removeKeyword() {
-      this.searchParams.keyword = undefined;
-      this.$bus.$emit("clearKeyword"); //通知header组件清空关键字
+    //删除关键字的搜索条件,重新发送请求
+    removeKeyWord() {
+      this.searchParams.keyWord = undefined;
+      this.$bus.$emit("clearKeyWord"); //通知到Header组件清空keyWord
       // this.getSearchInfo();
-      this.searchParams.pageNo = 1
-      this.$router.replace({ name: "search", query: this.$route.query });
-
-      //然后路径变化了为什么就发送请求了，而且参数也对了呢
-      // 这里发请求依赖的是监视里面的代码
+      this.$route.push({
+        name: "search",
+        query: this.$route.query,
+      });
+      //注意====此处路径变化了为什么就发送请求了，是因为这里发请求依赖的是watch里面的代码
     },
-
-    // 用户点击品牌后，根据品牌搜索重新发送请求
+    //用户点击品牌后，根据品牌搜索重新发送请求
     searchForTrademark(trademark) {
-      // trademark最终参数的样子要去参考接口文档
       this.searchParams.trademark = `${trademark.tmId}:${trademark.tmName}`;
-      this.searchParams.pageNo = 1
       this.getSearchInfo();
     },
-
-    // 删除品牌搜索条件后，重新发送请求
+    //这是删除品牌trademark搜索条件后，重新发送请求
     removeTrademark() {
       this.searchParams.trademark = undefined;
-      this.searchParams.pageNo = 1
       this.getSearchInfo();
     },
-    //用户点击平台属性值，根据平台属性搜索重新发送请求
+    //用户点击平台属性，根据平台属性搜索重新发送请求
     searchForProps(attrValue, attr) {
-      let prop = `${attr.attrId}:${attrValue}:${attr.attrName}`;
-
-      //你得判断数组当中是否已经存在当前这个属性，如果有了就不要再去发请求了
-      //数组方法（高级方法）
-      // every some  reduce   filter  map
-      // 功能 参数  返回值
-      // some
-      // 功能： 只要数组当中有一个和条件一样，返回true  如果都没有，false
-      // 参数： 参考filter回调函数
-      // 返回值： 返回布尔值
-
-      // every
-      // 功能： 数组当中必须全部都和条件一样，返回true，有一个不一样就false
-      // 参数： 参考filter
-      // 返回值： 返回布尔值
-
-      let isRepeate = this.searchParams.props.some((item) => item === prop);
-
-      if (isRepeate) {
-        //证明已经存在这个属性，发过请求了，就别再继续发了
-        return;
-      }
-      this.searchParams.pageNo = 1
+      let prop = `${attr.attrid}:${attrValue}:${attr.attrName}`;
       this.searchParams.props.push(prop);
       this.getSearchInfo();
     },
-    //用户删除某个属性值搜索条件，重新发送请求
+    //用户删除某个属性搜索条件，重新发送请求
     removeProp(index) {
       this.searchParams.props.splice(index, 1);
-      this.searchParams.pageNo = 1
       this.getSearchInfo();
     },
-
-
-
-    //点击综合或者价格的排序回调
-    changeSort(sortFlag) {
-      //首先我们得判断用户点击的是不是和原来的排序标志一样
-      //获取到原来的排序标志和排序类型
-      // let originSortFlag = this.searchParams.order.split(":")[0];
-      // let originSortType = this.searchParams.order.split(":")[1];
-      let originSortFlag = this.sortFlag;
-      let originSortType = this.sortType;
-      let newOrder = "";
-      //判断用户点击的是不是还是原来的
-      if (sortFlag === originSortFlag) {
-        //假设用户点击的排序标志和原来的是一样的，证明点击的还是同一个排序，那么我们需要把排序类型改变
-        newOrder = `${originSortFlag}:${
-          originSortType === "asc" ? "desc" : "asc"
-        }`;
-      } else {
-        //假设用户点击的排序标志和原来的是不一样的，证明点击的不是同一个排序，那么我们需要把排序标志改变，排序类型默认
-        newOrder = `${sortFlag}:desc`;
-      }
-
-      this.searchParams.order = newOrder; //把排序规则的数据修改
-      this.searchParams.pageNo = 1
-      this.getSearchInfo(); //重新发送请求获取新排序的数据显示
-    },
-
-    //分页器点击切换页码的时候，触发的自定义事件回调
-    changePageNo(page){
-      this.searchParams.pageNo = page
-      this.getSearchInfo()
-    }
   },
   computed: {
     ...mapGetters(["goodsList"]),
-    ...mapState({
-      searchInfo: (state) => state.search.searchInfo,
-    }),
-    //优化代码
-    sortFlag() {
-      return this.searchParams.order.split(":")[0];
-    },
-    sortType() {
-      return this.searchParams.order.split(":")[1];
-    },
   },
-
-  //解决search页面改变参数，无法重复发请求的问题
   watch: {
-    $route(newVal, oldval) {
-      this.handlerSearchParams();
+    $route(newVal, oldVal) {
+      this.handleSearchParams();
       this.getSearchInfo();
     },
   },

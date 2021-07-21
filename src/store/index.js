@@ -1,7 +1,7 @@
 /*
  * @Author: SummerJay__
  * @Date: 2021-07-18 14:01:53
- * @LastEditTime: 2021-07-18 14:30:32
+ * @LastEditTime: 2021-07-21 09:39:12
  * @LastEditors: your name
  * @Description:
  * @FilePath: \gulishop-client\src\store\index.js
@@ -13,6 +13,7 @@ Vue.use(Vuex);
 
 import home from "./home";
 import user from "./user";
+import search from "./search";
 
 const state = {
   //用于存数据
@@ -39,5 +40,6 @@ export default new Vuex.Store({
     //modules代表模块化
     user,
     home,
+    search,
   },
 });

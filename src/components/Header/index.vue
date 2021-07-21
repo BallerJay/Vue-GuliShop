@@ -1,7 +1,7 @@
 <!--
  * @Author: SummerJay__
  * @Date: 2021-07-17 09:05:15
- * @LastEditTime: 2021-07-19 16:25:25
+ * @LastEditTime: 2021-07-21 22:28:51
  * @LastEditors: your name
  * @Description: 
  * @FilePath: \gulishop-client\src\components\Header\index.vue
@@ -100,6 +100,12 @@ export default {
 
       this.keyWord = "";
     },
+    clearKeyWord() {
+      this.keyWord = "";
+    },
+  },
+  mounted() {
+    this.$bus.$on("clearKeyWord", this.clearKeyWord);
   },
 };
 </script>

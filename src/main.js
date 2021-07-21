@@ -1,7 +1,7 @@
 /*
  * @Author: SummerJay__
  * @Date: 2021-07-16 15:52:41
- * @LastEditTime: 2021-07-20 15:36:45
+ * @LastEditTime: 2021-07-21 22:23:16
  * @LastEditors: your name
  * @Description:
  * @FilePath: \gulishop-client\src\main.js
@@ -27,6 +27,9 @@ Vue.component("TypeNav", TypeNav);
 Vue.component("SlideLoop", SlideLoop);
 
 new Vue({
+  beforeCreate() {
+    Vue.prototype.$bus = this; //安装总线，代表任何组件内部都可以通过this.$bus访问到vm实例
+  },
   router: router, //我们所有的组件内部都可以使用this.$router和this.$route
   store: store,
   render: (h) => h(App),

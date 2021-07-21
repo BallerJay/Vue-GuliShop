@@ -1,7 +1,7 @@
 /*
  * @Author: SummerJay__
  * @Date: 2021-07-18 10:38:10
- * @LastEditTime: 2021-07-19 23:17:20
+ * @LastEditTime: 2021-07-21 09:33:22
  * @LastEditors: your name
  * @Description:
  * @FilePath: \gulishop-client\src\api\index.js
@@ -45,3 +45,15 @@ export const reqFloorList = () => {
     method: "get",
   });
 };
+
+//请求获取search页面的数据
+//这个请求参数searchObj必须是一个对象可以是空对象，但是必须传,不能不传
+//其实用户发请求的时候，这个参数是可以给空对象{},也是可以获取到数据的，代表获取商品默认搜索的数据
+export const reqSearchInfo = (searchObj) => {
+  return request({
+    url: "/post/list",
+    method: "post",
+    data: searchObj, //searchObj是用户搜索的参数，这个参数是用户在发请求的时候给传递的
+  });
+};
+// reqSearchInfo({});

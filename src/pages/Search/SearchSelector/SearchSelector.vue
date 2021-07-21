@@ -27,7 +27,9 @@
       <div class="fl value">
         <ul class="type-list">
           <li v-for="(attrValue, index) in attr.attrValueList" :key="index">
-            <a href="javascript:;" @click="searchForProps(attrValue,attr)">{{ attrValue }}</a>
+            <a href="javascript:;" @click="searchForProps(attrValue, attr)">{{
+              attrValue
+            }}</a>
           </li>
         </ul>
       </div>
@@ -43,26 +45,26 @@ export default {
   computed: {
     ...mapGetters(["attrsList", "trademarkList"]),
   },
-
-  methods:{
-    // 点击品牌的回调
-    searchForTrademark(trademark){
+  methods: {
+    //点击品牌的回调
+    searchForTrademark(trademark) {
       //讲道理，在这个回调当中，我们需要把searchParams当中的参数trademark改完
       //需要发请求获取搜索结果数据
-      //但是前面我们相干的都不能在子组件当中去做，因为searchParams和发请求的所有数据都是在父组件当中的
+      //但是我们以上想干的都不能在子组件当中去做，因为searchParams和发请求的所有数据都是在父组件当中
       //如果非要在子组件当中完成，通信比较麻烦
-      //最终我们决定，当用户点击品牌，我们把品牌传递给父组件，在父组件当中修改searchParams和发请求是最简单的
-
-      //子向父
-      // props（传函数）   自定义事件
-      this.$emit('searchForTrademark',trademark) //用户点击把trademark传递给父组件，在父组件当中去干活
+      //最终我们决定，当用户点击品牌的时候，我们把品牌传递给父组件，在父组件当中修改searchParams和发请求是最简单的
+      /**
+       * 子向父传递数据
+       * props(传函数)  自定义事件
+       */
+      //用户点击把trademark传递给父组件，在父组件当中去干活
+      this.$emit("searchForTrademark", trademark);
     },
-
-    //点击平台属性值的回调
-    searchForProps(attrValue,attr){
-      this.$emit('searchForProps',attrValue,attr)
-    }
-  }
+    //点击属性值的回调
+    searchForProps(attrValue, attr) {
+      this.$emit("searchForProps", attrValue, attr);
+    },
+  },
 };
 </script>
 
