@@ -1,7 +1,7 @@
 /*
  * @Author: SummerJay__
  * @Date: 2021-07-16 15:52:41
- * @LastEditTime: 2021-07-21 22:23:16
+ * @LastEditTime: 2021-07-22 14:57:48
  * @LastEditors: your name
  * @Description:
  * @FilePath: \gulishop-client\src\main.js
@@ -11,6 +11,7 @@ import App from "@/App";
 import router from "@/router";
 import TypeNav from "@/components/TypeNav";
 import SlideLoop from "@/components/SlideLoop";
+import Pagination from "@/components/Pagination";
 import store from "@/store";
 import "@/mock/mockServer"; //引入mockServer，让模拟的接口生效
 import "swiper/css/swiper.css"; //引入swiper的css
@@ -25,6 +26,7 @@ Vue.config.productionTip = false;
 //全局注册的组件，如果一个非路由组件被多个组件使用，那么定义在components文件夹，注册在全局
 Vue.component("TypeNav", TypeNav);
 Vue.component("SlideLoop", SlideLoop);
+Vue.component("Pagination", Pagination);
 
 new Vue({
   beforeCreate() {

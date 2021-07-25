@@ -53,7 +53,12 @@
               <ul class="sui-nav">
                 <!-- <li
                   :class="{ active: searchParams.order.split(':')[0] === '1' }"
-                > -->
+                ></li> -->
+                <!-- 第一步: 先把背景色动态显示搞定 -->
+                <!-- 第二步: 再让图标可以动态显示 
+                            1.用啥图标  
+                            2.图标什么出现  和背景色一样，谁有背景色，那么谁就有图标
+                -->
                 <li :class="{ active: sortFlag === '1' }">
                   <a href="javascript:;" @click="changeSort('1')">
                     综合
@@ -69,7 +74,11 @@
                     ></i>
                   </a>
                 </li>
-                <li :class="{ active: sortFlag === '2' }">
+                <li
+                  :class="{
+                    active: sortFlag === '2',
+                  }"
+                >
                   <a href="javascript:;" @click="changeSort('2')">
                     价格
                     <i
@@ -94,12 +103,13 @@
               >
                 <div class="list-wrap">
                   <div class="p-img">
-                    <!-- <router-link :to="'/detail/' + goods.id">
-                      <img v-lazy="goods.defaultImg" />
-                    </router-link> -->
-                    <a href="item.html" target="_blank">
+                    <router-link :to="'/detail/' + goods.id">
+                      <!-- <img v-lazy="goods.defaultImg" /> -->
                       <img :src="goods.defaultImg" />
-                    </a>
+                    </router-link>
+                    <!-- <a href="item.html" target="_blank">
+                      <img :src="goods.defaultImg" />
+                    </a> -->
                   </div>
                   <div class="price">
                     <strong>
@@ -108,16 +118,16 @@
                     </strong>
                   </div>
                   <div class="attr">
-                    <!-- <router-link :to="'/detail/' + goods.id">
+                    <router-link :to="'/detail/' + goods.id">
                       {{ goods.title }}
-                    </router-link> -->
-                    <a
+                    </router-link>
+                    <!-- <a
                       target="_blank"
                       href="item.html"
                       title="促销信息，下单即赠送三个月CIBN视频会员卡！【小米电视新品4A 58 火爆预约中】"
                     >
                       {{ goods.title }}</a
-                    >
+                    > -->
                   </div>
                   <div class="commit">
                     <i class="command">已有<span>2000</span>人评价</i>
@@ -156,8 +166,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-// import { mapGetters, mapState } from "vuex";
+import { mapGetters, mapState } from "vuex";
 import SearchSelector from "./SearchSelector/SearchSelector";
 export default {
   name: "Search",
@@ -169,17 +178,22 @@ export default {
       searchParams: {
         //这个对象我们称作初始化所有的搜索参数
         //今后只要是作为搜索条件的，所有相关数据，全部先在这个对象内部初始化好
-        categoryId1: "",
-        categoryId2: "",
-        categoryId3: "",
+        category1Id: "",
+        category2Id: "",
+        category3Id: "",
         categoryName: "",
         keyWord: "",
         props: [],
         trademark: "",
         //默认的搜索条件
         order: "1:desc", //排序规则，排序是后台排序的，我们搜索的时候得给后台一个默认的排序规则
+        /**
+         * order: "1:desc" 排序是根据这个来排的
+         * 冒号前面代表的是排序标志   1.代表综合排序   2.代表价格排序
+         * asc:升序  desc:降序
+         */
         pageNo: 1, //搜索第几页的商品,分类也是后台做好的，我们也得告诉后台我们要第几个数据
-        pageSize: 10, //每页多少个商品，告诉后台，每页回来多少个商品，默认10个
+        pageSize: 8, //每页多少个商品，告诉后台，每页回来多少个商品，默认10个
       },
     };
   },
@@ -210,29 +224,45 @@ export default {
     },
 
     handleSearchParams() {
-      let { categoryId1, categoryId2, categoryId3, categoryName } =
+      let { category1Id, category2Id, category3Id, categoryName } =
         this.$route.query;
       let { keyWord } = this.$route.params;
       let searchParams = {
         ...this.searchParams,
-        categoryId1,
-        categoryId2,
-        categoryId3,
+        category1Id,
+        category2Id,
+        category3Id,
         categoryName,
         keyWord,
       };
+
+      //赋值给this.searchParams之前，最好把属性值为空串的属性干掉
+      //遍历对象最快的方法就是使用forEach，是把对象属性转化为数组然后进行遍历
+      //只要以后看到Object.keys(xx),就是为了让对象可以使用forEach方法来高效遍历
+      Object.keys(searchParams).forEach((key) => {
+        if (searchParams[key] === "") {
+          delete searchParams[key];
+        }
+      });
       this.searchParams = searchParams;
     },
     //删除分类名称搜索条件,重新发送请求
     removeCategoryName() {
-      this.searchParams.categoryId1 = undefined;
-      this.searchParams.categoryId2 = undefined;
-      this.searchParams.categoryId3 = undefined;
+      this.searchParams.category1Id = undefined;
+      this.searchParams.category2Id = undefined;
+      this.searchParams.category3Id = undefined;
       this.searchParams.categoryName = undefined;
       // this.getSearchInfo();
       //这里删除以后不会动我的原来路径，所以这样发请求不行，我们得让路径发生变化
       //所以发送请求的时候，要删除对应的参数
-      this.$route.push({
+      // this.$route.push({
+      //   name: "search",
+      //   params: this.$route.params,
+      // });
+
+      this.searchParams.pageNo = 1;
+
+      this.$route.replace({
         name: "search",
         params: this.$route.params,
       });
@@ -243,7 +273,14 @@ export default {
       this.searchParams.keyWord = undefined;
       this.$bus.$emit("clearKeyWord"); //通知到Header组件清空keyWord
       // this.getSearchInfo();
-      this.$route.push({
+      // this.$route.push({
+      //   name: "search",
+      //   query: this.$route.query,
+      // });
+
+      this.searchParams.pageNo = 1;
+
+      this.$route.replace({
         name: "search",
         query: this.$route.query,
       });
@@ -251,28 +288,77 @@ export default {
     },
     //用户点击品牌后，根据品牌搜索重新发送请求
     searchForTrademark(trademark) {
+      this.searchParams.pageNo = 1;
       this.searchParams.trademark = `${trademark.tmId}:${trademark.tmName}`;
       this.getSearchInfo();
     },
     //这是删除品牌trademark搜索条件后，重新发送请求
     removeTrademark() {
       this.searchParams.trademark = undefined;
+      this.searchParams.pageNo = 1;
       this.getSearchInfo();
     },
     //用户点击平台属性，根据平台属性搜索重新发送请求
     searchForProps(attrValue, attr) {
       let prop = `${attr.attrid}:${attrValue}:${attr.attrName}`;
+      // this.searchParams.props.push(prop);
+      // this.getSearchInfo();
+      //此处出现bug,当用户连续点击时，会重复添加属性
+      //所以我们需要判断数组当中是否已经存在当前这个属性，如果有了就不要再去发请求了
+      let isRepeat = this.searchParams.props.some((item) => item === prop);
+      if (isRepeat) {
+        return;
+      }
+      this.searchParams.pageNo = 1;
       this.searchParams.props.push(prop);
       this.getSearchInfo();
     },
     //用户删除某个属性搜索条件，重新发送请求
     removeProp(index) {
       this.searchParams.props.splice(index, 1);
+      this.searchParams.pageNo = 1;
+      this.getSearchInfo();
+    },
+    //点击综合或者价格变换排序方式的回调
+    changeSort(sortFlag) {
+      //首先我们需要判断用户点击的是不是和原来的排序标志一样
+      //获取到原来的排序标志和类型
+      // let originSortFlag = this.searchParams.order.split(":")[0];
+      // let originSortType = this.searchParams.order.split(":")[1];
+      let originSortFlag = this.sortFlag;
+      let originSortType = this.sortType;
+      let newOrder = "";
+      //判断用户点击的是不是还是原来的综合或者价格
+      if (sortFlag === originSortFlag) {
+        //假设用户点击的排序和原来的是一样的，证明点击的还是同一个排序，那么我们需要把排序类型转变
+        newOrder = `${originSortFlag}:${
+          originSortType === "asc" ? "desc" : "asc"
+        }`;
+      } else {
+        //假设用户点击的排序标志和原来的不一样,证明点击的不是用一个排序，那么我们需要把排序标志改变，排序类型默认
+        newOrder = `${sortFlag}:desc`;
+      }
+      this.searchParams.order = newOrder;
+      this.searchParams.pageNo = 1;
+      this.getSearchInfo();
+    },
+    //分页器点击切换页码的时候，触发的自定义事件回调
+    changePageNo(pageNo) {
+      this.searchParams.pageNo = pageNo;
       this.getSearchInfo();
     },
   },
   computed: {
     ...mapGetters(["goodsList"]),
+    ...mapState({
+      searchInfo: (state) => state.search.searchInfo,
+    }),
+    sortFlag() {
+      return this.searchParams.order.split(":")[0];
+    },
+    sortType() {
+      return this.searchParams.order.split(":")[1];
+    },
   },
   watch: {
     $route(newVal, oldVal) {

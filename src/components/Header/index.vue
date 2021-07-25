@@ -1,7 +1,7 @@
 <!--
  * @Author: SummerJay__
  * @Date: 2021-07-17 09:05:15
- * @LastEditTime: 2021-07-21 22:28:51
+ * @LastEditTime: 2021-07-22 10:04:29
  * @LastEditors: your name
  * @Description: 
  * @FilePath: \gulishop-client\src\components\Header\index.vue
@@ -96,7 +96,14 @@ export default {
       if (this.$route.query) {
         location.query = this.$route.query;
       }
-      this.$router.push(location);
+      // this.$router.push(location);
+      //如果是从home也跳转search页,就push
+      //如果是search页跳search页，就replace
+      if (this.$route.path !== "/home") {
+        this.$router.replace(location);
+      } else {
+        this.$router.push(location);
+      }
 
       this.keyWord = "";
     },

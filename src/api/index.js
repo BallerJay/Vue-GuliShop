@@ -1,7 +1,7 @@
 /*
  * @Author: SummerJay__
  * @Date: 2021-07-18 10:38:10
- * @LastEditTime: 2021-07-21 09:33:22
+ * @LastEditTime: 2021-07-24 10:58:17
  * @LastEditors: your name
  * @Description:
  * @FilePath: \gulishop-client\src\api\index.js
@@ -57,3 +57,19 @@ export const reqSearchInfo = (searchObj) => {
   });
 };
 // reqSearchInfo({});
+
+//请求获取详情数据
+export const reqDetailInfo = (skuId) => {
+  return request({
+    url: `/get/item/${skuId}`,
+    method: "get",
+  });
+};
+
+//请求添加购物车(修改购物车的商品数量)
+export const reqAddOrUpdateShopCart = (skuId, skuNum) => {
+  return request({
+    url: `/post/cart/addToCart/${skuId}/${skuNum}`,
+    method: "post",
+  });
+};

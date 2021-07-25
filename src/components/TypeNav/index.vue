@@ -1,7 +1,7 @@
 <!--
  * @Author: SummerJay__
  * @Date: 2021-07-17 20:02:36
- * @LastEditTime: 2021-07-19 23:19:27
+ * @LastEditTime: 2021-07-23 09:56:33
  * @LastEditors: your name
  * @Description: 
  * @FilePath: \gulishop-client\src\components\TypeNav\index.vue
@@ -58,7 +58,7 @@
                   <!-- 事件委派处理 -->
                   <a
                     href="javascript:;"
-                    :data-categoryId1="c1.categoryId"
+                    :data-category1Id="c1.categoryId"
                     :data-categoryName="c1.categoryName"
                     >{{ c1.categoryName }}</a
                   >
@@ -98,7 +98,7 @@
 
                         <a
                           href="javascript:;"
-                          :data-categoryId2="c2.categoryId"
+                          :data-category2Id="c2.categoryId"
                           :data-categoryName="c2.categoryName"
                           >{{ c2.categoryName }}</a
                         >
@@ -134,7 +134,7 @@
                         > -->
                           <a
                             href="javascript:;"
-                            :data-categoryId3="c3.categoryId"
+                            :data-category3Id="c3.categoryId"
                             :data-categoryName="c3.categoryName"
                             >{{ c3.categoryName }}</a
                           >
@@ -210,7 +210,7 @@ export default {
        * 如果点击的是a标签，那么data一定是有categoryid和categoryname的
        * 如果点的不是a标签，那么data就没有categoryid和categoryname
        */
-      let { categoryid1, categoryid2, categoryid3, categoryname } = data;
+      let { category1id, category2id, category3id, categoryname } = data;
       if (categoryname) {
         //categoryname存在说明点击的是a标签
         let location = {
@@ -220,12 +220,12 @@ export default {
           categoryName: categoryname,
         };
         //然后在确定是一级还是二级还是三级的id
-        if (categoryid1) {
-          query.categoryId1 = categoryid1;
-        } else if (categoryid2) {
-          query.categoryId2 = categoryid2;
+        if (category1id) {
+          query.category1Id = category1id;
+        } else if (category2id) {
+          query.category2Id = category2id;
         } else {
-          query.categoryId3 = categoryid3;
+          query.category3Id3 = category3id;
         }
         //找到所有的query参数以后，最后把query放到location里面
 
@@ -234,7 +234,14 @@ export default {
           location.params = this.$route.params;
         }
         location.query = query;
-        this.$router.push(location);
+
+        //如果是从home也跳转search页,就push
+        //如果是search页跳search页，就replace
+        if (this.$route.path !== "/home") {
+          this.$router.replace(location);
+        } else {
+          this.$router.push(location);
+        }
       }
     },
 

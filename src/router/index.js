@@ -1,7 +1,7 @@
 /*
  * @Author: SummerJay__
  * @Date: 2021-07-17 09:38:11
- * @LastEditTime: 2021-07-17 18:56:18
+ * @LastEditTime: 2021-07-23 16:09:36
  * @LastEditors: your name
  * @Description:
  * @FilePath: \gulishop-client\src\router\index.js
@@ -9,11 +9,8 @@
 
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "@/pages/Home";
-import Login from "@/pages/Login";
-import Search from "@/pages/Search";
-import Register from "@/pages/Register";
 Vue.use(VueRouter);
+import routes from "./routes";
 
 /**
  * VueRouter 是路由器对象的构造函数
@@ -48,39 +45,49 @@ VueRouter.prototype.replace = function(location, onResolved, onRejected) {
   }
 };
 
-const router = new VueRouter({
-  routes: [
-    {
-      path: "/home",
-      component: Home,
-    },
-    {
-      path: "/login",
-      component: Login,
-      //是路由对象当中的元配置项，可以配置我们所需要的任何数据
-      meta: {
-        isHidden: "true",
-      },
-    },
-    {
-      path: "/search/:keyWord?",
-      component: Search,
-      name: "search",
-      props: true,
-    },
-    {
-      path: "/register",
-      component: Register,
-      meta: {
-        isHidden: "true",
-      },
-    },
-    {
-      // 定义重定向路由
-      path: "/",
-      redirect: "/home",
-    },
-  ],
-});
+// const router = new VueRouter({
+//   routes: [
+//     {
+//       path: "/home",
+//       component: Home,
+//     },
+//     {
+//       path: "/login",
+//       component: Login,
+//       //是路由对象当中的元配置项，可以配置我们所需要的任何数据
+//       meta: {
+//         isHidden: "true",
+//       },
+//     },
+//     {
+//       path: "/search/:keyWord?",
+//       component: Search,
+//       name: "search",
+//       props: true,
+//     },
+//     {
+//       path: "/register",
+//       component: Register,
+//       meta: {
+//         isHidden: "true",
+//       },
+//     },
+//     {
+//       path: "/detail/:goodsId",
+//       component: Detail,
+//     },
+//     {
+//       // 定义重定向路由
+//       path: "/",
+//       redirect: "/home",
+//     },
+//   ],
+// });
 
-export default router;
+export default new VueRouter({
+  routes: routes,
+  //配置滚动行为，跳转到新的路由界面滚动条的位置
+  scrollBehavior(to, from, savedPosition) {
+    return { x: 0, y: 0 };
+  },
+});
