@@ -1,7 +1,7 @@
 /*
  * @Author: SummerJay__
  * @Date: 2021-07-18 08:56:27
- * @LastEditTime: 2021-07-18 10:08:22
+ * @LastEditTime: 2021-07-27 16:31:14
  * @LastEditors: your name
  * @Description:
  * @FilePath: \gulishop-client\src\api\ajax.js
@@ -20,6 +20,7 @@
 import axios from "axios";
 import NProgress from "nprogress";
 import "nprogress/nprogress.css";
+import store from "@/store";
 //以后只要是对axios二次封装，不会在axios身上直接去封装，而是创建一个新的axios实例进行封装
 
 //axios.create()创建一个新的和axios具有相同功能的一个实例
@@ -40,6 +41,14 @@ service.interceptors.request.use(
     //config就是我们的请求报文,这个请求报文最后一定要返回回去，因为还要继续往下走
     //在这里,我们可以添加额外的功能,也可以给请求头添加需要的数据
     NProgress.start(); //开启进度条
+
+    //请求内部需要添加临时标识，后期每个请求都会带上这个临时标识
+    let userTempId = store.state.user.userTempId;
+    if (userTempId) config.headers.userTempId = userTempId;
+
+    //登陆成功后，需要把token添加到请求头当中，从今往后所有的请求当中都要带上这个token
+    let token = store.state.user.token;
+    if (token) config.headers.token = token;
     return config;
   }
   //请求拦截器中失败的回调一般不写，因为失败了，也就没有下文了

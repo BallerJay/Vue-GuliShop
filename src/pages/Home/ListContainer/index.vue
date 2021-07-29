@@ -1,7 +1,7 @@
 <!--
  * @Author: SummerJay__
  * @Date: 2021-07-17 20:14:35
- * @LastEditTime: 2021-07-20 15:50:14
+ * @LastEditTime: 2021-07-26 14:33:25
  * @LastEditors: your name
  * @Description: 
  * @FilePath: \gulishop-client\src\pages\Home\ListContainer\index.vue
@@ -310,7 +310,7 @@ export default {
           width: 25%;
 
           .list-item {
-            background-image: url(./images/icons.png);
+            background-image: url(~@/assets/images/icons.png);
             width: 61px;
             height: 40px;
             display: block;

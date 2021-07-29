@@ -1,7 +1,7 @@
 <!--
  * @Author: SummerJay__
  * @Date: 2021-07-17 09:05:15
- * @LastEditTime: 2021-07-22 10:04:29
+ * @LastEditTime: 2021-07-28 15:43:47
  * @LastEditors: your name
  * @Description: 
  * @FilePath: \gulishop-client\src\components\Header\index.vue
@@ -14,7 +14,13 @@
       <div class="container">
         <div class="loginList">
           <p>尚品汇欢迎您！</p>
-          <p>
+          <p v-if="$store.state.user.userInfo.name">
+            <span>欢迎您</span>
+            <a href="javascript::">{{ $store.state.user.userInfo.name }}</a>
+            <a href="javascript::" class="register" @click="logout">退出登录</a>
+          </p>
+
+          <p v-else>
             <span>请</span>
             <!-- <a href="###">登录</a>
             <a href="###" class="register">免费注册</a> -->
@@ -24,7 +30,8 @@
         </div>
         <div class="typeList">
           <a href="###">我的订单</a>
-          <a href="###">我的购物车</a>
+          <!-- <a href="###">我的购物车</a> -->
+          <router-link to="/shopcart">我的购物车</router-link>
           <a href="###">我的尚品汇</a>
           <a href="###">尚品汇会员</a>
           <a href="###">企业采购</a>
@@ -109,6 +116,16 @@ export default {
     },
     clearKeyWord() {
       this.keyWord = "";
+    },
+    //退出登录
+    logout() {
+      try {
+        this.$store.dispatch("userLogout");
+        alert("退出登录成功");
+        this.$router.push("/");
+      } catch (error) {
+        alert("退出登录失败");
+      }
     },
   },
   mounted() {

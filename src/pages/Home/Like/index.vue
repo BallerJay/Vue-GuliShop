@@ -1,7 +1,7 @@
 <!--
  * @Author: SummerJay__
  * @Date: 2021-07-17 20:37:37
- * @LastEditTime: 2021-07-17 20:39:36
+ * @LastEditTime: 2021-07-26 14:29:55
  * @LastEditors: your name
  * @Description: 
  * @FilePath: \gulishop-client\src\pages\Home\Like\index.vue
@@ -90,7 +90,7 @@ export default {
 
       .fr {
         float: right;
-        background-image: url(./images/icons.png);
+        background-image: url(../../../assets/images/icons.png);
         width: 66px;
         height: 25px;
         background-position: 182px -104px;

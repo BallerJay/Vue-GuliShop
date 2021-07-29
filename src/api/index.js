@@ -1,7 +1,7 @@
 /*
  * @Author: SummerJay__
  * @Date: 2021-07-18 10:38:10
- * @LastEditTime: 2021-07-24 10:58:17
+ * @LastEditTime: 2021-07-28 15:20:45
  * @LastEditors: your name
  * @Description:
  * @FilePath: \gulishop-client\src\api\index.js
@@ -71,5 +71,83 @@ export const reqAddOrUpdateShopCart = (skuId, skuNum) => {
   return request({
     url: `/post/cart/addToCart/${skuId}/${skuNum}`,
     method: "post",
+    data: { skuId: skuId, skuNum: skuNum },
+  });
+};
+
+//请求获取购物车页面数据
+export const reqShopCartList = () => {
+  return request({
+    url: `/get/cart/cartList`,
+    method: "get",
+  });
+};
+
+//请求修改购物车选中状态
+export const reqUpdateCartIscheck = (skuId, isChecked) => {
+  return request({
+    url: `/get/cart/checkCart/${skuId}/${isChecked}`,
+    method: "get",
+  });
+};
+
+//请求删除购物车数据
+export const reqDeleteShopCart = (skuId) => {
+  return request({
+    url: `/delete/cart/deleteCart/${skuId}`,
+    method: "delete",
+    data: {
+      skuId,
+    },
+  });
+};
+
+//请求注册用户---参数 code phone password
+export const reqUserRegister = (userInfo) => {
+  return request({
+    url: "/post/user/passport/register",
+    method: "post",
+    data: userInfo,
+  });
+};
+
+//请求获取用户注册验证码
+export const reqGetCode = (phone) => {
+  return request({
+    url: `/get/user/passport/sendCode/${phone}`,
+    method: "get",
+  });
+};
+
+//请求用户登陆
+
+//返回的数据   ---- 返回的东西不严谨，登陆成功后只返回token标识,不会有其他的
+//而其他的用户数据需要重新根据token发请求获取(token校验)
+// data:{
+//   nickName:"Administrator",
+//   name:"Admin",
+//   token: 90aa16f24d04c7d882051412f9ec45b"
+//   }
+export const reqUserLogin = (userInfo) => {
+  return request({
+    url: "/post/user/passport/login",
+    method: "post",
+    data: userInfo,
+  });
+};
+
+//根据token请求获取用户的信息
+export const reqGetUserInfo = () => {
+  return request({
+    url: "/get/user/passport/auth/getUserInfo",
+    methods: "get",
+  });
+};
+
+//请求退出登录
+export const reqUserLogout = () => {
+  return request({
+    url: "/get/user/passport/logout",
+    method: "get",
   });
 };

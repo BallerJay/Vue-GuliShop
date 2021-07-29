@@ -1,7 +1,7 @@
 /*
  * @Author: SummerJay__
  * @Date: 2021-07-17 09:38:11
- * @LastEditTime: 2021-07-23 16:09:36
+ * @LastEditTime: 2021-07-28 15:34:44
  * @LastEditors: your name
  * @Description:
  * @FilePath: \gulishop-client\src\router\index.js
@@ -11,6 +11,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 Vue.use(VueRouter);
 import routes from "./routes";
+import store from "@/store";
 
 /**
  * VueRouter 是路由器对象的构造函数
@@ -84,10 +85,57 @@ VueRouter.prototype.replace = function(location, onResolved, onRejected) {
 //   ],
 // });
 
-export default new VueRouter({
+const router = new VueRouter({
   routes: routes,
   //配置滚动行为，跳转到新的路由界面滚动条的位置
   scrollBehavior(to, from, savedPosition) {
     return { x: 0, y: 0 };
   },
 });
+
+//注册全局前置导航守卫，用来对token进行校验，根据token获取用户信息
+router.beforeEach(async (to, from, next) => {
+  //to --- 准备跳转的目的地路由对象
+  //from --- 从哪来的路由对象
+  //next --- 是一个函数
+  //根据参数不同，功能就不一样
+  //next() 代表无条件放行
+  //next('/') 代表强制跳转到指定的位置
+  //next(false) 代表什么都不做，原地不动
+
+  //1.守卫拦截住，先去获取用户的token和用户信息
+  let token = store.state.user.token;
+  let userInfo = store.state.user.userInfo.name;
+  if (token) {
+    //如果token存在，代表用户登录过
+    if (to.path === "/login") {
+      //用户已经登陆了，还要往登陆页面去跳，没必要
+      next("/");
+    } else {
+      //如果用户已经登陆了，但是跳转的不再是登陆页，那么我们需要看用户信息获取了没有
+
+      if (userInfo) {
+        //如果用户的信息已经获取
+        next();
+      } else {
+        //用户已经登陆，但是用户还没有获取用户信息，在这里需要请求获取用户信息
+        try {
+          //如果获取用户信息成功，用户信息拿到就无条件放行
+          await store.dispatch("getUserInfo"); //用户根据token获取用户信息
+          next();
+        } catch (error) {
+          //根据token获取用户信息失败，代表token可能过期
+          //把用户的过期token给清理掉，重新跳转到登录页面
+          store.dispatch("userLogout");
+          next("/login");
+        }
+      }
+    }
+  } else {
+    //用户根本没登录
+    //目前什么都不做，直接放行，后面我们是需要添加功能
+    next();
+  }
+});
+
+export default router;

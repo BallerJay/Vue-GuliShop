@@ -1,7 +1,7 @@
 /*
  * @Author: SummerJay__
  * @Date: 2021-07-23 15:57:16
- * @LastEditTime: 2021-07-24 19:38:22
+ * @LastEditTime: 2021-07-29 08:20:43
  * @LastEditors: your name
  * @Description:
  * @FilePath: \gulishop-client\src\router\routes.js
@@ -12,7 +12,10 @@ import Login from "@/pages/Login";
 import Search from "@/pages/Search";
 import Register from "@/pages/Register";
 import Detail from "@/pages/Detail";
-import addCartSuccess from "@/pages/AddCartSuccess";
+import AddCartSuccess from "@/pages/AddCartSuccess";
+import ShopCart from "@/pages/ShopCart";
+import Trade from "@/pages/Trade";
+import Pay from "@/pages/Pay";
 
 export default [
   {
@@ -46,7 +49,23 @@ export default [
   },
   {
     path: "/addCartSuccess",
-    component: addCartSuccess,
+    component: AddCartSuccess,
+  },
+  {
+    path: "/shopcart",
+    component: ShopCart,
+  },
+  {
+    path: "/login",
+    component: Login,
+  },
+  {
+    path: "/trade",
+    component: Trade,
+  },
+  {
+    path: "/pay",
+    component: Pay,
   },
   {
     // 定义重定向路由
