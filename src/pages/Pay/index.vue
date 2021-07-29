@@ -133,9 +133,9 @@ export default {
           confirmButtonText: "我已成功支付",
           center: true,
           // beforeClose一旦被设定，那么消息盒子关闭不关闭，我们可以在这个里面进行控制
-          beforeClose:(action, instance, done) => {
+          beforeClose: (action, instance, done) => {
             //action代表用户点击的是哪个按钮 'confirm确定按钮', 'cancel取消'或'close关闭'；
-            if(action === 'confirm'){
+            if (action === "confirm") {
               //正常的代码逻辑
               // 代表用户点击的是确定
               //判断如果没有支付
@@ -147,31 +147,30 @@ export default {
               //后门
               clearInterval(this.timer); //clearInterval只是清除了定时器，不让管理模块当中定时器生效
               this.timer = null; //把之前设置定时器的编号id 也清除
-              done()
+              done();
               this.$router.push("/paysuccess");
-
-            }else if(action === 'cancel'){
+            } else if (action === "cancel") {
               //代表用户点击的是取消
               // this.$message.success  绿色提示
               // this.$message.info    灰色提示
               // this.$message.error   红色提示
               // this.$message.warning 橙色提示
               //1、提示
-              this.$message.warning('支付问题请联系尚硅谷前台小姐姐')
+              this.$message.warning("支付问题请联系尚硅谷前台小姐姐");
               //2、清除定时器
               clearInterval(this.timer); //clearInterval只是清除了定时器，不让管理模块当中定时器生效
               this.timer = null; //把之前设置定时器的编号id 也清除
               //3、关闭消息盒子
-              done() //调用就会关闭，不调就不关
+              done(); //调用就会关闭，不调就不关
             }
-          }
+          },
         })
           .then(() => {})
           .catch(() => {});
-          //.then() 是对应点击确定按钮之后的操作
-          //如果采用这两个去操作，都会强制关闭我们的弹出框msgBox
-          // 而我们现在并不是要直接关闭，是需要判断用户是不是支付了，才决定关闭不关闭
-          //.catch();是对应点击取消按钮之后的操作
+        //.then() 是对应点击确定按钮之后的操作
+        //如果采用这两个去操作，都会强制关闭我们的弹出框msgBox
+        // 而我们现在并不是要直接关闭，是需要判断用户是不是支付了，才决定关闭不关闭
+        //.catch();是对应点击取消按钮之后的操作
         //轮询 隔2秒发一个请求， 为了让后台给我返回这个订单的支付状态
         //用以判断用户到底是支付了还是没支付
         if (!this.timer) {

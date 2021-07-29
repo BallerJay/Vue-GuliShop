@@ -97,7 +97,7 @@
     </div>
     <div class="trade">
       <div class="price">
-        应付金额:　<span>¥{{ tradeInfo.totalAmount }}</span>
+        应付金额:<span>¥{{ tradeInfo.totalAmount }}</span>
       </div>
       <div class="receiveInfo">
         寄送至:

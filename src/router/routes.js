@@ -1,7 +1,7 @@
 /*
  * @Author: SummerJay__
  * @Date: 2021-07-23 15:57:16
- * @LastEditTime: 2021-07-29 08:20:43
+ * @LastEditTime: 2021-07-29 08:34:20
  * @LastEditors: your name
  * @Description:
  * @FilePath: \gulishop-client\src\router\routes.js
@@ -16,6 +16,7 @@ import AddCartSuccess from "@/pages/AddCartSuccess";
 import ShopCart from "@/pages/ShopCart";
 import Trade from "@/pages/Trade";
 import Pay from "@/pages/Pay";
+import PaySuccess from "@/pages/PaySuccess";
 
 export default [
   {
@@ -56,16 +57,16 @@ export default [
     component: ShopCart,
   },
   {
-    path: "/login",
-    component: Login,
-  },
-  {
     path: "/trade",
     component: Trade,
   },
   {
     path: "/pay",
     component: Pay,
+  },
+  {
+    path: "/paysuccess",
+    component: PaySuccess,
   },
   {
     // 定义重定向路由

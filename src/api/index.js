@@ -1,7 +1,7 @@
 /*
  * @Author: SummerJay__
  * @Date: 2021-07-18 10:38:10
- * @LastEditTime: 2021-07-28 15:20:45
+ * @LastEditTime: 2021-07-29 17:19:20
  * @LastEditors: your name
  * @Description:
  * @FilePath: \gulishop-client\src\api\index.js
@@ -148,6 +148,47 @@ export const reqGetUserInfo = () => {
 export const reqUserLogout = () => {
   return request({
     url: "/get/user/passport/logout",
+    method: "get",
+  });
+};
+
+//请求获取用户的收获地址信息
+export const reqUserAddressList = () => {
+  return request({
+    url: "/get/user/userAddress/auth/findUserAddressList",
+    method: "get",
+  });
+};
+
+//请求获取订单交易页面信息
+export const reqTradeInfo = () => {
+  return request({
+    url: "/get/order/auth/trade",
+    method: "get",
+  });
+};
+
+//请求提交订单创建订单
+export const reqSubmitOrder = (tradeNo, tradeInfo) => {
+  return request({
+    url: `/post/order/auth/submitOrder?tradeNo=${tradeNo}`,
+    method: "post",
+    data: tradeInfo,
+  });
+};
+
+//请求获取支付信息
+export const reqPayInfo = (orderId) => {
+  return request({
+    url: `/get/payment/weixin/createNative/${orderId}`,
+    method: "get",
+  });
+};
+
+//请求获取订单支付状态
+export const reqPayStatus = (orderId) => {
+  return request({
+    url: `/get/payment/weixin/queryPayStatus/${orderId}`,
     method: "get",
   });
 };

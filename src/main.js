@@ -1,7 +1,7 @@
 /*
  * @Author: SummerJay__
  * @Date: 2021-07-16 15:52:41
- * @LastEditTime: 2021-07-22 14:57:48
+ * @LastEditTime: 2021-07-29 14:32:51
  * @LastEditors: your name
  * @Description:
  * @FilePath: \gulishop-client\src\main.js
@@ -19,6 +19,21 @@ import "swiper/css/swiper.css"; //引入swiper的css
 // import { reqCategoryList } from "@/api"; //验证接口请求函数时使用,第二种方法
 // reqCategoryList();
 
+import * as API from "@/api";
+
+/**
+ * element-ui 当中分为两种组件
+ * 第一种组件就和下面这个Button一样，可以引入然后全局注册
+ *
+ * 第二种组件就和MessageBox类似，引入之后不能直接注册，而是挂载Vue的原型上使用
+ */
+import { Button, MessageBox, Message } from "element-ui";
+// Vue.use(Button);
+Vue.component(Button.name, Button);
+Vue.prototype.$msgbox = MessageBox;
+Vue.prototype.$alert = MessageBox.alert;
+Vue.prototype.$message = Message; //用于做提示消息
+
 //@ 是一个别名，是一个小名，代表的就是我们的src的路径
 
 Vue.config.productionTip = false;
@@ -31,6 +46,7 @@ Vue.component("Pagination", Pagination);
 new Vue({
   beforeCreate() {
     Vue.prototype.$bus = this; //安装总线，代表任何组件内部都可以通过this.$bus访问到vm实例
+    Vue.prototype.$API = API;
   },
   router: router, //我们所有的组件内部都可以使用this.$router和this.$route
   store: store,

@@ -1,7 +1,7 @@
 /*
  * @Author: SummerJay__
  * @Date: 2021-07-18 14:27:08
- * @LastEditTime: 2021-07-28 15:33:12
+ * @LastEditTime: 2021-07-29 09:14:41
  * @LastEditors: your name
  * @Description:
  * @FilePath: \gulishop-client\src\store\user.js
@@ -14,6 +14,7 @@ import {
   reqUserLogin,
   reqGetUserInfo,
   reqUserLogout,
+  reqUserAddressList,
 } from "@/api";
 //user的vuex模块
 const state = {
@@ -31,6 +32,7 @@ const state = {
   //第一次登录时，我们先初始化为空串
   // token: "", //初始化为空串无法自动登录
   userInfo: {},
+  userAddressList: [],
 };
 
 const actions = {
@@ -100,6 +102,14 @@ const actions = {
       return Promise.reject(new Error("failed"));
     }
   },
+
+  //获取用户收货地址
+  async getUserAddressList({ commit }) {
+    let result = await reqUserAddressList();
+    if (result.code === 200) {
+      commit("RECEIVE_USERADDRESSLIST", result.data);
+    }
+  },
 };
 
 const mutations = {
@@ -121,6 +131,9 @@ const mutations = {
   RESET_USER(state) {
     state.token = "";
     state.userInfo = {};
+  },
+  RECEIVE_USERADDRESSLIST(state, value) {
+    state.userAddressList = value;
   },
 };
 
