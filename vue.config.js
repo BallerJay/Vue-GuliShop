@@ -1,7 +1,7 @@
 /*
  * @Author: SummerJay__
  * @Date: 2021-07-16 18:30:57
- * @LastEditTime: 2021-07-18 16:24:31
+ * @LastEditTime: 2021-08-01 14:08:40
  * @LastEditors: your name
  * @Description:
  * @FilePath: \gulishop-client\vue.config.js

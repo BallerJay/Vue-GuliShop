@@ -1,7 +1,7 @@
 <!--
  * @Author: SummerJay__
  * @Date: 2021-07-17 09:05:15
- * @LastEditTime: 2021-07-28 15:43:47
+ * @LastEditTime: 2021-07-31 10:30:05
  * @LastEditors: your name
  * @Description: 
  * @FilePath: \gulishop-client\src\components\Header\index.vue
@@ -29,7 +29,8 @@
           </p>
         </div>
         <div class="typeList">
-          <a href="###">我的订单</a>
+          <!-- <a href="###">我的订单</a> -->
+          <router-link to="/center">我的订单</router-link>
           <!-- <a href="###">我的购物车</a> -->
           <router-link to="/shopcart">我的购物车</router-link>
           <a href="###">我的尚品汇</a>

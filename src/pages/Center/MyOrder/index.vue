@@ -182,7 +182,7 @@ export default {
   },
   methods: {
     async getMyOrderInfo(page = 1) {
-      this.page = page
+      this.page = page;
       const result = await this.$API.reqMyOrderInfo(this.page, this.limit);
       if (result.code === 200) {
         this.myOrderInfo = result.data;

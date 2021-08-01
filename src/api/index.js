@@ -1,7 +1,7 @@
 /*
  * @Author: SummerJay__
  * @Date: 2021-07-18 10:38:10
- * @LastEditTime: 2021-07-29 17:19:20
+ * @LastEditTime: 2021-07-31 11:02:52
  * @LastEditors: your name
  * @Description:
  * @FilePath: \gulishop-client\src\api\index.js
@@ -189,6 +189,14 @@ export const reqPayInfo = (orderId) => {
 export const reqPayStatus = (orderId) => {
   return request({
     url: `/get/payment/weixin/queryPayStatus/${orderId}`,
+    method: "get",
+  });
+};
+
+//请求获取我的订单列表数据
+export const reqMyOrderInfo = (page, limit) => {
+  return request({
+    url: `/get/order/auth/${page}/${limit}`,
     method: "get",
   });
 };

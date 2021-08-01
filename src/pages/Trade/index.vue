@@ -130,6 +130,7 @@ export default {
   //   // 通过 `vm` 访问组件实例
   // })
 
+  //组件内守卫
   // beforeRouteEnter(to, from, next) {
   //   // 在渲染该组件的对应路由被 confirm 前调用
   //   // 不！能！获取组件实例 `this`

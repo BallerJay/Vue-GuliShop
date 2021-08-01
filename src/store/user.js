@@ -1,7 +1,7 @@
 /*
  * @Author: SummerJay__
  * @Date: 2021-07-18 14:27:08
- * @LastEditTime: 2021-07-29 09:14:41
+ * @LastEditTime: 2021-08-01 13:59:38
  * @LastEditors: your name
  * @Description:
  * @FilePath: \gulishop-client\src\store\user.js
@@ -95,8 +95,8 @@ const actions = {
     let result = await reqUserLogout();
     if (result.code === 200) {
       //清除数据  清空state的token和用户信息   清空localStorage的token
-      localStorage.removeItem("TOKEN_KEY");
       commit("RESET_USER");
+      localStorage.removeItem("TOKEN_KEY");
       return "ok";
     } else {
       return Promise.reject(new Error("failed"));

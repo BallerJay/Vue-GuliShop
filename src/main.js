@@ -1,7 +1,7 @@
 /*
  * @Author: SummerJay__
  * @Date: 2021-07-16 15:52:41
- * @LastEditTime: 2021-07-29 14:32:51
+ * @LastEditTime: 2021-08-01 09:33:30
  * @LastEditors: your name
  * @Description:
  * @FilePath: \gulishop-client\src\main.js
@@ -20,6 +20,17 @@ import "swiper/css/swiper.css"; //引入swiper的css
 // reqCategoryList();
 
 import * as API from "@/api";
+
+//图片懒加载s
+import VueLazyload from "vue-lazyload";
+import loading from "@/assets/images/loading.gif";
+//在图片界面没有进入到可视范围前不加载，在没有得到图片前先显示loading图片
+Vue.use(VueLazyload, {
+  //内部自定义了一个指令lazy
+  loading, //指定未加载得到图片之前的loading图片
+});
+
+import "@/utils/validate";
 
 /**
  * element-ui 当中分为两种组件

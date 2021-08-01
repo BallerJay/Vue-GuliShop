@@ -21,14 +21,23 @@
                   type="text"
                   placeholder="邮箱/用户名/手机号"
                   v-model="phone"
+                  name="phone"
+                  v-validate="{ required: true, regex: /^1\d{10}$/ }"
+                  :class="{ invalid: errors.has('phone') }"
                 />
               </div>
               <div class="input-text clearFix">
                 <span class="pwd"></span>
                 <input
-                  type="text"
+                  type="password"
                   placeholder="请输入密码"
                   v-model="password"
+                  name="password"
+                  v-validate="{
+                    required: true,
+                    regex: /^[0-9 A-Z a-z]{6,20}$/,
+                  }"
+                  :class="{ invalid: errors.has('password') }"
                 />
               </div>
               <div class="setting clearFix">

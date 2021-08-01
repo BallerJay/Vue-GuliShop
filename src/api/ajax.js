@@ -1,7 +1,7 @@
 /*
  * @Author: SummerJay__
  * @Date: 2021-07-18 08:56:27
- * @LastEditTime: 2021-07-27 16:31:14
+ * @LastEditTime: 2021-08-01 14:08:36
  * @LastEditors: your name
  * @Description:
  * @FilePath: \gulishop-client\src\api\ajax.js

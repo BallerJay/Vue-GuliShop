@@ -104,8 +104,8 @@
                 <div class="list-wrap">
                   <div class="p-img">
                     <router-link :to="'/detail/' + goods.id">
-                      <!-- <img v-lazy="goods.defaultImg" /> -->
-                      <img :src="goods.defaultImg" />
+                      <img v-lazy="goods.defaultImg" />
+                      <!-- <img :src="goods.defaultImg" /> -->
                     </router-link>
                     <!-- <a href="item.html" target="_blank">
                       <img :src="goods.defaultImg" />
